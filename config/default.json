@@ -1,3 +1,4 @@
 {
-  "mongoURI" :"mongodb+srv://rajan_devconnect:devconnect_123@devconnector-hkh9u.mongodb.net/test?retryWrites=true&w=majority"
+  "mongoURI" :"mongodb+srv://rajan_devconnect:devconnect_123@devconnector-hkh9u.mongodb.net/test?retryWrites=true&w=majority",
+  "jwtToken" : "userloginsecrettoken"
 }
