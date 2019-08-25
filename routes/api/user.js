@@ -14,11 +14,13 @@ const User = require('../../models/User');
  * @desc    Register route
  * @access  Public
  */
-router.post('/',[
+router.post('/',
+[
   check('name', 'Name is required').not().isEmpty(),
   check('email', 'Please enter a password with 6 or more characters').isEmail(),
   check('password', 'Please enter a password with 6 or mre characters').isLength({min: 6})
-], async (req,res)=>{
+],
+ async (req,res)=>{
   //console.log(req.body);
   const errors = validationResult(req);
   if(!errors.isEmpty()){
