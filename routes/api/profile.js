@@ -131,5 +131,22 @@ router.get('/me',auth,
       }
     })
 
+/**
+  * @route GET api/profile/:user_id
+  * @desc Get a user profile
+  * @access Public
+  */
+
+  router.get('/user/:user_id', 
+    async (req, res)=>{
+      try {
+        const profile = await Profile.findOne({user: req.params.user_id}).populate('user', ['name', 'avatar']);
+        if(!profile) return res.status(400).json({ msg: 'There is no profile for this user. '})
+        res.status(200).json(profile);
+      } catch (error) {
+        console.log(error.message);
+        res.status(500).send('Server error');
+      }
+    })
 
 module.exports = router;
