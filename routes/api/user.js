@@ -38,7 +38,7 @@ router.post('/',
       return res.status(400).json({ errors: [{msg: 'User already exists'}] });
     }
     //Get users gravatar
-    const awatar = gravatar.url(email, {
+    const avatar = gravatar.url(email, {
       s: '200', //size
       r: 'pg', //rating
       d: 'mm' //..
@@ -47,7 +47,7 @@ router.post('/',
     user = new User({
       name,
       email,
-      awatar,
+      avatar,
       password
     });
 
