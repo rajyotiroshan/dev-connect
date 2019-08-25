@@ -113,4 +113,23 @@ router.get('/me',auth,
         res.status(500).send('Server error');
       }
  })
+
+ /**
+  * @route GET api/profile
+  * @desc Get all profiles
+  * @access Public
+  */
+
+  router.get('/', 
+    async (req, res)=>{
+      try {
+        const profiles = await Profile.find().populate('user', ['name', 'avatar']);
+        res.status(200).json(profiles);
+      } catch (error) {
+        console.log(error.message);
+        res.status(500).send('Server error');
+      }
+    })
+
+
 module.exports = router;
