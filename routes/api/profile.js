@@ -254,4 +254,77 @@ router.get('/me',auth,
     res.send(500).send(' Server Error ');
   }
  })
+
+ /**
+  * @route PUT api/profile/education
+  * @desc Update /create education
+  * @access Private
+  */
+
+  router.put(
+    '/education',
+    [
+      auth,
+      [
+        check('school', 'School field is required')
+          .not()
+          .isEmpty(),
+        check('degree', 'degree field is required')
+          .not()
+          .isEmpty(),
+        check('fieldofstudy', 'fieldofstudy field is required')
+          .not()
+          .isEmpty(),
+        check('from', 'from field is required')
+          .not()
+          .isEmpty()
+      ]
+    ],
+    async (req, res) => {
+      //validate req
+      const errors = validationResult(req);
+      if(!errors.isEmpty()){
+        console.log(errors.array());
+        res.status(400).json({errors: errors.array()});
+      }
+
+      try {
+        //access profile
+        const profile = await Profile.findOne({ user: req.user.id});
+        //extract send data from req
+        let {
+          school,
+          degree,
+          fieldofstudy,
+          from,
+          to,
+          current,
+          description
+        } = req.body;
+
+        //create new education row
+        let newEdu = {
+          school,
+          degree,
+          fieldofstudy,
+          from,
+          to,
+          current,
+          description
+        };
+
+        //push education at start
+        profile.education.unshift(newEdu);
+        //save education into the db
+        await profile.save();
+        //res
+        res.status(200).json(profile);
+      } catch (error) {
+        console.log(error.message);
+        return res.status(500).send('Server error');
+      }
+    }
+  );
+
+
 module.exports = router;
