@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 const Schema  = mongoose.Schema;
 
 const postSchema = new Schema({
-
   user: {
     type: Schema.Types.ObjectId,
     ref: 'users'
@@ -28,11 +27,11 @@ const postSchema = new Schema({
   comments: [
     {
       user: {
-        type: Schema.type.ObjectId,
+        type: Schema.Types.ObjectId,
         ref: 'users'
       },
       text: {
-        type:String,
+        type: String,
         required: true
       },
       name: {
@@ -47,7 +46,6 @@ const postSchema = new Schema({
       }
     }
   ]
-
 });
 
 module.exports = Post =  mongoose.model('post', postSchema);
