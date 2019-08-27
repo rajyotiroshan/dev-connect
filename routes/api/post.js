@@ -183,5 +183,47 @@ router.post('/',[
     }
   });
 
+  /**
+   * @route POST /comment/:post_id
+   * @desc Post a comment on a post
+   * @access Private
+   */
+
+   router.post('/comment/:post_id', [
+     auth,
+     [
+       check('text', " Text is required ").not().isEmpty()
+     ]
+   ] , async (req, res)=>{
+      //check error
+      const error = validationResult(req);
+      if(!error.isEmpty()){
+        return res.status(400).json({ error: error.array() });
+      }
+      try {
+        //access user
+        const user = await User.findById(req.user.id).select('-password');
+        //access post
+        const post = await Post.findById(req.params.post_id);
+        //construct a comment
+        let cmntData = {
+          user: req.user.id,
+          text: req.body.text,
+          name: user.name,
+          avatar: user.avatar
+        };
+
+        //add commnt to post.comments
+        post.comments.unshift(cmntData);
+        //ssave post
+        await post.save();
+        //response
+        res.status(200).json(post);
+      } catch (error) {
+        console.log(error.message);
+        res.send(500).send('Server error');
+      }
+   })
+
 
 module.exports = router;
