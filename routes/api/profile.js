@@ -10,7 +10,7 @@ const auth = require('../../middleware/auth');
 /**
  * @route   GET api/profile/me
  * @desc    Get current user profile
- * @access  Public
+ * @access  Private
  */
 router.get('/me',auth, 
  async (req, res) => {
