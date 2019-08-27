@@ -89,7 +89,7 @@ router.post('/',[
  })
 
   /**
- * @route   DELETE api/posts/:id
+ * @route   DELETE api/post/:id
  * @desc    Delete a post by id
  * @access  Private
  */
@@ -122,5 +122,37 @@ router.post('/',[
      res.status(500).send('Server error');
    }
  })
+
+ /**
+  * @route POST api/post/like/:post_id
+  * @descp give a like to a post
+  * @access Private
+  */
+
+  router.post('/like/:post_id', auth, async (req, res)=>{
+    try {
+
+      //access the post
+      const post = await Post.findById(req.params.post_id);
+      
+      //verify if user already liked
+      if(post.likes.filter(like=>like.user.toString()===req.user.id).length >0){
+        return res.status(400).json({ msg: " already liked. "})
+      }
+
+      //for new like
+      post.likes.unshift({
+        user: req.user.id
+      });
+      
+      //save post
+      await post.save();
+      res.status(200).json(post);
+    } catch (error) {
+      console.log(error.message);
+      res.status(500).json({ msg: "Server error "});
+    }
+  });
+
 
 module.exports = router;
