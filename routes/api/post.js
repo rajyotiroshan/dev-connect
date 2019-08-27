@@ -194,7 +194,8 @@ router.post('/',[
      [
        check('text', " Text is required ").not().isEmpty()
      ]
-   ] , async (req, res)=>{
+   ],
+   async (req, res)=>{
       //check error
       const error = validationResult(req);
       if(!error.isEmpty()){
@@ -224,6 +225,41 @@ router.post('/',[
         res.send(500).send('Server error');
       }
    })
+
+   /**
+    * @route DELETE /:post_id/:cmnt_id
+    * @desc Delete a comment from a post
+    * @access Private
+    */
+
+    router.delete('/:post_id/:comnt_id', auth, async (req, res)=>{
+      try {
+        //access post
+        const post = await Post.findById(req.params.post_id);
+        console.log(post);
+        if(!post){
+          return res.status(404).json({ msg: "post does not exist" });
+        }
+        //access comment
+        let comment = post.comments.find(comment=> comment.id.toString() === req.params.comnt_id);
+        if(!comment) {
+          return res.status(404).json({ msg: "comment does not exist" });
+        }
+        //right user
+        if(req.user.id !== comment.user.toString()){
+          return res.status.json({ msg: " user not authorized " });
+        }
+        //access comment index
+        let comntIndex = post.comments.map(comnt=> comnt.id.toString()).indexOf(req.params.comnt_id);
+        //remove comment
+        post.comments.splice(comntIndex, 1);
+        await post.save();
+        res.status(200).json(post);
+      } catch (error) {
+        console.log(error.message);
+        res.status(500).send(' Server Error');
+      }
+    })
 
 
 module.exports = router;
