@@ -1,3 +1,4 @@
+import {SET_ALERT, REMOVE_ALERT} from '../actions/Types'
 const initialState = [
 /*   {
     id: 1,
@@ -5,7 +6,7 @@ const initialState = [
     alertType: 'success'
   } */
 ];
-import {SET_ALERT, REMOVE_ALERT} from '../actions/Types'
+
 export default function(state= initialState, action) {
   const { type, payload} = action;
   switch(type) {
