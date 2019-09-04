@@ -26,7 +26,7 @@ async (req, res) => {
 
 /**
  * @route POST api/auth
- * @desc Login route
+ * @desc Login route, Authenticate uer and get token.
  * @access Public
  */
 
@@ -40,7 +40,7 @@ async (req, res) => {
   //validate erros
   const errors = validationResult(req);
   if(!errors.isEmpty()) {
-    return res.status(400).json({errors: error.array()});
+    return res.status(400).json({errors: errors.array()});
   }
   const {email, password} = req.body;
 
