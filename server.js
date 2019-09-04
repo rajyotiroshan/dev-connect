@@ -8,9 +8,12 @@ connectDB();
 
 const PORT = process.env.PORT||5000; //look for env var port on deploying
 
-//Init middleware
+// Init middleware.
+// every post data will be in json form.
+// req.body <----- postData.
 app.use(express.json({extended: false}));
 
+//end point for root url.
 app.get('/',(req,res)=>{
   res.send("API running");
 })
