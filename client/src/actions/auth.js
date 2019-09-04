@@ -7,15 +7,18 @@ import {
   USER_LOADED,
   AUTH_ERROR,
   LOGIN_SUCCESS,
-  LOGIN_FAIL
+  LOGIN_FAIL,
+  LOGOUT
 }  from './Types';
 import setAuthToken from '../utils/setAuthToken';
 
 //Load User
 
 export const loadUser = () => async dispatch => {
-  if(localStorage.token){
-    setAuthToken(localStorage.token);
+  const token = localStorage.getItem('token');
+  console.log(token)
+  if(token){
+    setAuthToken(token);
   }
 
   try {
@@ -61,7 +64,7 @@ export const register = ({ name, email, password})=> async dispatch=>{
 }
 
 //Login user
-export const login = ({email, password})=> async dispatch=>{
+export const login = (email, password)=> async dispatch=>{
   const config = {
     headers: {
       'Content-Type': 'application/json'
@@ -72,7 +75,7 @@ export const login = ({email, password})=> async dispatch=>{
 
   try {
     const res = await axios.post('/api/auth', body, config);
-    
+    console.log(res.data);
     dispatch({
       type: LOGIN_SUCCESS,
       payload: res.data
@@ -90,4 +93,10 @@ export const login = ({email, password})=> async dispatch=>{
       type: LOGIN_FAIL
     })
   }
+}
+
+//Logout user
+
+export const logout = ()=> async dispatch => {
+  dispatch( { type: LOGOUT} )
 }

@@ -14,10 +14,12 @@ const Login = ({ login, isAuthenticated }) => {
 
   const {email, password} = formData;
 
+  //in login input change.
   const onChange = e => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  //callback for login form submit
   const onSubmit = async e => {
     e.preventDefault();
     //call login action creator.
