@@ -16,6 +16,7 @@ if(localStorage.token){
   setAuthToken(localStorage.token);
 }
 const  App = ()=>{
+  
   useEffect(()=>{
     store.dispatch(loadUser());
   }, []);//run once hence passed [] as 2nd arg.
