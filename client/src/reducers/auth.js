@@ -7,7 +7,6 @@ import {
   LOGIN_SUCCESS,
   LOGOUT
 } from '../actions/Types';
-import { stat } from 'fs';
 
 const initialState = {
   token: localStorage.getItem('token'),
