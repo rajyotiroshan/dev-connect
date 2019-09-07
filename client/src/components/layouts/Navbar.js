@@ -1,4 +1,4 @@
-import React, {Fragment}  from 'react';
+import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -7,16 +7,19 @@ import { logout } from '../../actions/auth';
 const Navbar = ({ logout, auth: { isAuthenticated, loading } }) => {
   const authLinks = (
     <ul>
-      <li> <Link to="/dashboard">
-        <i className="fa fa-user">
-          <span className="hide-sm">Dashboard</span>
-        </i>
-        </Link></li>
+      <li>
+        {' '}
+        <Link to='/dashboard'>
+          <i className='fa fa-user'>
+            <span className='hide-sm'>Dashboard</span>
+          </i>
+        </Link>
+      </li>
       <li>
         <a onClick={logout} href='#!'>
-          <i  className=" fas fa-sign-out-alt">
+          <i className=' fas fa-sign-out-alt'>
             {' '}
-            <span className="hide-sm">Logout</span>
+            <span className='hide-sm'>Logout</span>
           </i>
         </a>
       </li>
@@ -43,11 +46,9 @@ const Navbar = ({ logout, auth: { isAuthenticated, loading } }) => {
           <i className='fas fa-code'></i> DevConnector
         </Link>
       </h1>
-      { !loading && (
-        <Fragment>
-          {isAuthenticated ? authLinks: guestLinks}
-        </Fragment>
-      ) }
+      {!loading && (
+        <Fragment>{isAuthenticated ? authLinks : guestLinks}</Fragment>
+      )}
     </nav>
   );
 };
