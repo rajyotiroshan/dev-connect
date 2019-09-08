@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 import Spinner from '../layouts/Spinner';
 import { getCurrentProfile } from '../../actions/profile';
 import DashboardActions from './DashboardActions'
+import Experience from './Experience';
+import Education from './Education';
 
 const Dashboard = ({
   getCurrentProfile,
@@ -30,7 +32,11 @@ const Dashboard = ({
       </p>
       {/** if loading is done and profile doesnot exist */}
       {profile !== null ? (
-        <Fragment><DashboardActions/></Fragment>
+        <Fragment>
+          <DashboardActions/>
+          <Experience experience={profile.experience}/>
+          <Education education={profile.education}/>
+        </Fragment>
       ) : (
         <Fragment>
           <p>You have not set up a profile, please add some info</p>
