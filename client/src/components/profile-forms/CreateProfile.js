@@ -1,11 +1,15 @@
-import React, { Fragment, useState} from 'react'
+import React, { Fragment, useState, useEffect} from 'react'
 import { withRouter, Link} from 'react-router-dom';
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux';
-import {createProfile} from '../../actions/profile';
+import {createProfile, getCurrentProfile} from '../../actions/profile';
 
-const CreateProfile = ({ createProfile, history }) => {
-
+const CreateProfile = ({
+  createProfile,
+  getCurrentProfile,
+  profile: { profile, loading },
+  history
+}) => {
   let [formData, setFormData] = useState({
     company: '',
     website: '',
@@ -33,16 +37,22 @@ const CreateProfile = ({ createProfile, history }) => {
     facebook,
     linkedin,
     youtube,
-    instagram,
+    instagram
   } = formData;
 
-  const [displaySocialinput, toggleSocialInput] = useState(false); 
-  const onChange  = e =>setFormData({...formData, [e.target.name]: e.target.value});
+  const [displaySocialinput, toggleSocialInput] = useState(false);
+  const onChange = e =>
+    setFormData({ ...formData, [e.target.name]: e.target.value });
 
-  const onSubmit = e=>{
+  const onSubmit = e => {
     e.preventDefault();
     createProfile(formData, history);
-  }
+  };
+
+  useEffect(() => {
+    getCurrentProfile();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [getCurrentProfile]);
   return (
     <Fragment>
       <section className='container'>
@@ -52,7 +62,7 @@ const CreateProfile = ({ createProfile, history }) => {
           your profile stand out
         </p>
         <small>* = required field</small>
-        <form className='form' onSubmit={e=>onSubmit(e)}>
+        <form className='form' onSubmit={e => onSubmit(e)}>
           <div className='form-group'>
             <select name='status' value={status} onChange={e => onChange(e)}>
               <option value='0'>* Select Professional Status</option>
@@ -122,6 +132,8 @@ const CreateProfile = ({ createProfile, history }) => {
               type='text'
               placeholder='Github Username'
               name='githubusername'
+              value={githubusername}
+              onChange={e => onChange(e)}
             />
             <small className='form-text'>
               If you want your latest repos and a Github link, include your
@@ -216,12 +228,17 @@ const CreateProfile = ({ createProfile, history }) => {
       </section>
     </Fragment>
   );
-}
+};
 
 CreateProfile.propTypes = {
- createProfile: PropTypes.func.isRequired
-}
-
-
-
-export default connect(null, {createProfile} )(withRouter(CreateProfile))
+  createProfile: PropTypes.func.isRequired,
+  getCurrentProfile: PropTypes.func.isRequired,
+  profile: PropTypes.object.isRequired
+};
+const mapStateToProps = state => ({
+  profile: state.profile
+});
+export default connect(
+  mapStateToProps,
+  { createProfile, getCurrentProfile }
+)(withRouter(CreateProfile));
