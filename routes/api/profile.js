@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const {check, validationResult} = require('express-validator');
-const reqquest = require('request');
+const request = require('request');
 const config = require('config');
 
 const Profile = require('../../models/Profile'); 
@@ -28,7 +28,7 @@ router.get('/me',auth,
 });
 
 /**
- * @route POST api/profile/me
+ * @route POST api/profile
  * @desc Create user profile or update
  * @access Private
  */
@@ -71,7 +71,7 @@ router.get('/me',auth,
         instagram,
         linkedin
       } = req.body;
-
+      //console.log(req.body);
       //build profile object
       let profileFields = {};
       profileFields.user = req.user.id;
@@ -99,9 +99,10 @@ router.get('/me',auth,
         if(profile) {
           //Update
           profile = await Profile.findOneAndUpdate(
-            {user: req.user.id},
-            {$set: profileFields},
-            {new: true});
+            { user: req.user.id },
+            { $set: profileFields },
+            { new: true, upsert: true }
+          );
 
             return res.json(profile);
         }
@@ -365,7 +366,7 @@ router.get('/me',auth,
            headers:{'user-agent': 'node.js'}
          };
 
-         reqquest(option, (error, response, body) => {
+         request(option, (error, response, body) => {
            if(error) console.log(error);
 
            if(response.statusCode !== 200){
