@@ -1,18 +1,18 @@
 import React,{ Fragment, useEffect} from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux';
-import { getPost} from '../../actions/post';
+import { getPosts} from '../../actions/post';
 import Spinner from '../layouts/Spinner';
 import PostItem from './PostItem';
 import PostForm from './PostForm';
 
-const Posts = ({ getPost, posts: {
+const Posts = ({ getPosts, posts: {
   posts, loading
 }}) => {
 
   useEffect(()=>{
-    getPost();
-  },[getPost])
+    getPosts();
+  },[getPosts])
   return loading ? (
     <Spinner />
   ) : (
@@ -34,7 +34,7 @@ const Posts = ({ getPost, posts: {
 }
 
 Posts.propTypes = {
-getPost: PropTypes.func.isRequired,
+getPosts: PropTypes.func.isRequired,
 posts: PropTypes.object.isRequired
 }
 
@@ -43,5 +43,5 @@ const mapStateToProps = state=>({
 })
 
 export default connect(mapStateToProps, {
-  getPost
+  getPosts
 })(Posts);
