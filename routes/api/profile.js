@@ -372,7 +372,7 @@ router.get('/me',auth,
            if(response.statusCode !== 200){
              res.status(404).json({msg: "No githun profile found"});
            }
-           res.json(JSON.parse(body));
+           return res.json(JSON.parse(body));
          })
        } catch (error) {
          console.log(error.message);
