@@ -5,7 +5,7 @@ import { getPost} from '../../actions/post';
 import Spinner from '../layouts/Spinner';
 import PostItem from './PostItem';
 
-const Posts = ({ getPost, post: {
+const Posts = ({ getPost, posts: {
   posts, loading
 }}) => {
 
@@ -22,7 +22,7 @@ const Posts = ({ getPost, post: {
       </p>
       {/** PostForm */}
       <div className='posts'>
-        {posts.map(post => (
+        {posts && posts.map(post => (
           <PostItem key={post._id} post={post} />
         ))}
       </div>
@@ -32,11 +32,11 @@ const Posts = ({ getPost, post: {
 
 Posts.propTypes = {
 getPost: PropTypes.func.isRequired,
-post: PropTypes.object.isRequired
+posts: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state=>({
-  post: state.post
+  posts: state.post
 })
 
 export default connect(mapStateToProps, {
