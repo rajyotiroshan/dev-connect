@@ -100,7 +100,7 @@ router.post('/',[
     //
     const post = await Post.findById(req.params.post_id);
 
-    console.log(post);
+    //console.log(post);
     if(!post) {
       return res.status(404).json({ msg: 'Post not found' });
     }
@@ -124,12 +124,12 @@ router.post('/',[
  })
 
  /**
-  * @route POST api/post/like/:post_id
+  * @route PUT api/posts/like/:post_id
   * @descp give a like to a post
   * @access Private
   */
 
-  router.post('/like/:post_id', auth, async (req, res)=>{
+  router.put('/like/:post_id', auth, async (req, res)=>{
     try {
 
       //access the post
@@ -155,7 +155,7 @@ router.post('/',[
   });
 
    /**
-  * @route POST api/post/unlike/:post_id
+  * @route POST api/posts/unlike/:post_id
   * @descp give a like to a post
   * @access Private
   */
