@@ -6,7 +6,9 @@ import {
   UPDATE_LIKES,
   DELETE_POST,
   ADD_POST,
-  GET_POST
+  GET_POST,
+  ADD_COMMENT,
+  REMOVE_COMMENT
 } from './Types'
 
 //Get Post
@@ -107,6 +109,47 @@ export const deletePost= (post_id) => async dispatch => {
       payload: post_id
     })
     dispatch(setAlert('Post Removed', 'succcess'))
+  } catch (error) {
+    dispatch({
+      type: POST_ERROR,
+      payload: { msg: error.response.statusText, status: error.response.status}
+    })
+  }
+}
+
+//ADD Comment
+
+export const addComment= (post_id,formData) => async dispatch => {
+  try {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }
+  const res =  await axios.post(`/api/posts/comment/${post_id}`, formData, config);
+    dispatch({
+      type: ADD_COMMENT,
+      payload: res.data
+    })
+    dispatch(setAlert('Comments Added', 'succcess'))
+  } catch (error) {
+    dispatch({
+      type: POST_ERROR,
+      payload: { msg: error.response.statusText, status: error.response.status}
+    })
+  }
+}
+
+//delete Comments
+
+export const deleteComment= (post_id,comment_id) => async dispatch => {
+  try {
+   await axios.post(`/api/posts/comment/${post_id}/${comment_id}`);
+    dispatch({
+      type: REMOVE_COMMENT,
+      payload: comment_id
+    })
+    dispatch(setAlert('Comments Removed', 'succcess'))
   } catch (error) {
     dispatch({
       type: POST_ERROR,
