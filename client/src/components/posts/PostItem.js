@@ -30,7 +30,7 @@ const PostItem = ({
           <Fragment>
             {/**Like button */}
             <button
-              onClick={e => addLike(_id)}
+              onClick={()=> addLike(_id)}
               type='button'
               className='btn btn-light'
             >
